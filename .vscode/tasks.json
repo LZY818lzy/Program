@@ -1,0 +1,28 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Sync to Server", // 任务名称（自定义，比如“同步到服务器”）
+      "type": "shell", // 执行 shell 命令
+      "command": "wsl.exe", 
+      "args": [
+        "rsync",  // 核心命令：rsync
+        "-avz", // 归档模式 + 显示详细日志 + 压缩传输（加快速度）
+        "--delete", // 删除服务器上本地没有的文件（保持完全同步）
+        "--exclude", ".git/", // 排除 Git 目录（本地管理，不同步到服务器）
+        "--exclude", "build/", // 排除编译生成目录（本地编译，服务器无需）
+        // 👇 本地项目路径（替换为你的本地路径，Windows 用 WSL/Cygwin 格式）
+        "/mnt/e/桌面/Program", 
+        // 👇 服务器路径（替换为“用户名@IP:服务器项目路径”）
+        "lzy@192.168.134.128:/home/lzy/projects/" 
+      ],
+      "presentation": {
+        "echo": true, // 显示命令执行过程
+        "reveal": "always", // 同步时自动显示终端
+        "focus": false, // 不自动聚焦到终端（保持代码编辑焦点）
+        "panel": "shared" // 所有同步任务共用一个终端面板
+      },
+      "problemMatcher": [] // 不启用“问题匹配”（因为不是编译任务）
+    }
+  ]
+}
